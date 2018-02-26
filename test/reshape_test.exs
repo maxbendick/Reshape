@@ -7,35 +7,39 @@ defmodule ReshapeTest do
     assert Reshape.hello() == :world
   end
 
-  test "patbo assigns deep" do
+  test "over assigns deep" do
     it = 1
+
     data = %{
-      a: 5, 
-      b: 6, 
+      a: 5,
+      b: 6,
       c: %{in: 49}
     }
 
-    res = Reshape.over %{c: %{in: it}}, data do
-      it + 5
-    end
+    res =
+      Reshape.over %{c: %{in: it}}, data do
+        it + 5
+      end
 
     assert it == 1
+
     assert res == %{
-      a: 5, 
-      b: 6, 
-      c: %{in: 54}
-    }
+             a: 5,
+             b: 6,
+             c: %{in: 54}
+           }
   end
 
   test "viewing" do
     it = 1
+
     data = %{
-      a: 5, 
-      b: 6, 
+      a: 5,
+      b: 6,
       c: %{in: 49}
     }
 
-    res = Reshape.view %{c: %{in: it}}, data
+    res = Reshape.view(%{c: %{in: it}}, data)
 
     assert it == 1
     assert res == 49
@@ -49,7 +53,7 @@ defmodule ReshapeTest do
   #     b: 6, 
   #     c: %{in: 49}
   #   }
-    
+
   #   res = Reshape.view %{c: %{in: it}}, data
 
   #   assert res == 49

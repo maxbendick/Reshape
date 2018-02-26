@@ -1,21 +1,35 @@
 # Reshape
 
-**TODO: Add description**
+Lenses can be incredibly helpful, but sometimes syntax and ceremony can get in the way. 
+The goal of Reshape is to rethink how developers create lenses by taking advantage of
+Elixir's pattern matching.
 
-## Installation
-
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `reshape` to your list of dependencies in `mix.exs`:
+Reshape is purely experimental, and the ideal outcome is to contribute to an existing lens library.
 
 ```elixir
-def deps do
-  [
-    {:reshape, "~> 0.1.0"}
-  ]
+data = %{
+  a: 5, 
+  b: 6, 
+  c: %{in: 10}
+}
+
+# Reshape.over updates `it`
+res = Reshape.over %{c: %{in: it}}, data do
+  it + 5
 end
+
+res == %{
+  a: 5,
+  b: 6,
+  c: %{in: 15}
+}
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/reshape](https://hexdocs.pm/reshape).
+Check out the source and tests.
 
+## Why lenses can be useful
+
+Because state transitions in Elixir are pure, it's useful to create copies of data
+altered in specific ways. You also might only care about one part of your state.
+Sometimes the data can be large or deeply nested. You also might want to use a reusable
+function to do your state transition. Lenses can help you meet these needs.
