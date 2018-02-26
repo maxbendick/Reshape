@@ -30,6 +30,12 @@ Check out the source and tests.
 ## Why lenses can be useful
 
 Because state transitions in Elixir are pure, it's useful to create copies of data
-altered in specific ways. You also might only care about one part of your state.
-Sometimes the data can be large or deeply nested. You also might want to use a reusable
-function to do your state transition. Lenses can help you meet these needs.
+altered in specific ways.
+
+Lenses provide views on data. Lots of people think of them as functional setters and getters,
+but I think of them more like a functional version of the adapter pattern. You can use lenses
+to adapt a data structure to work with functions that don't know anything about your data structure.
+
+I think they're especially ripe for improving reusability when working with GenServers and 
+Redux (the JavaScript library). You can make general functions that take simple states
+and return simple states, then create lenses to adapt your GenServer's own state to work with those functions.
