@@ -89,4 +89,58 @@ defmodule Reshape do
       res
     end
   end
+
+  defmacro getter(pattern) do
+    quote do
+      fn data ->
+        # destructure data with the pattern, assigning to `it`
+        unquote(pattern) = data
+        var!(it)
+      end
+    end
+  end
+
+  defmacro setter(pattern) do
+    quote do
+      fn data, new_it ->
+        # we're in a fn, so hygiene is free
+        var!(it) = new_it
+
+        # the new data is the pattern, where `it` is a variable referencing new_it
+        new_data = unquote(pattern)
+
+        if is_map(new_data) do
+          Map.merge(data, new_data)
+        else
+          new_data
+        end
+      end
+    end
+  end
+
+  defstruct [:get, :set]
+
+  defmacro lens(pattern) do
+    quote do
+      %Reshape{
+        get: Reshape.getter(unquote(pattern)),
+        set: Reshape.setter(unquote(pattern)),
+      }
+    end
+  end
+
+  def fover(%{get: get, set: set}, data, f) do
+    a = get.(data)
+    b = f.(a)
+    c = set.(data, b)
+    c
+  end
+
+  def get(%{get: get}, data) do
+    get.(data)
+  end
+
+  def set(%{set: set}, data, x) do
+    set.(data, x)
+  end
 end

@@ -80,6 +80,20 @@ defmodule ReshapeTest do
     assert res == {:a, :b, 7, :c}
   end
 
+  # This feature will be useful... later
+  # test "over with many bindings" do
+  #   it = nil
+  #   data = %{a: 1, b: 2, c: 3, d: 5}
+
+  #   res = Reshape.over %{c: x, d: y}, data do
+  #     new_y = 0 - y
+
+  #     %{x: 0 - x, y: new_y}
+  #   end
+
+  #   assert res ==  %{a: 1, b: 2, c: -3, d: -5}
+  # end
+
   test "viewing" do
     it = 1
 
