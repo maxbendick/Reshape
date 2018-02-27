@@ -143,4 +143,20 @@ defmodule Reshape do
   def set(%{set: set}, data, x) do
     set.(data, x)
   end
+
+  def compose(%{set: outter_set, get: outter_get}, %{set: inner_set, get: inner_get}) do
+    %Reshape{
+      get: fn data ->
+        data
+        |> outter_get.()
+        |> inner_get.()
+      end,
+
+      set: fn data, new_it ->
+        level1 = outter_get.(data)
+        new_level1 = inner_set.(level1, new_it)
+        outter_set.(data, new_level1)
+      end
+    }
+  end
 end
