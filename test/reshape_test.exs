@@ -44,9 +44,14 @@ defmodule ReshapeTest do
       b: 2,
       loc: %{
         x: 1,
-        y: 109
+        y: 109,
+        z: %{a: 1}
       },
-      d: 4
+      other_loc: %{
+        x: 3,
+        y: 4,
+        z: %{a: 2}
+      },
     }
 
     y_transform = fn y ->
@@ -60,9 +65,14 @@ defmodule ReshapeTest do
       b: 2,
       loc: %{
         x: 1,
-        y: 111
+        y: 111,
+        z: %{a: 1}
       },
-      d: 4
+      other_loc: %{
+        x: 3,
+        y: 4,
+        z: %{a: 2}
+      },
     }
 
     assert expected == res
